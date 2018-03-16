@@ -65,20 +65,64 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MenuNavigationIniter__ = __webpack_require__(1);
+
+
 
 
 class MyClassStarter {
     constructor() {
         console.log("Create main obj MyClassStarter");
+        new __WEBPACK_IMPORTED_MODULE_0__MenuNavigationIniter__["a" /* default */]();
     }
 }
 
 window.onload = function() {
     const mainObj = new MyClassStarter();
 };
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+class MenuNavigationIniter {
+    constructor() {
+        console.log("Create MenuNavigationIniter obj");
+        this.listElemes = document.getElementsByClassName("listElementMenu");
+        this.listContens = document.getElementsByClassName("listMenuContent");
+        this.hideAllContens();
+        this.addEventsToListElements();
+    }
+
+    hideAllContens() {
+        for(let i = 0; i < this.listContens.length; i++) {
+            this.listContens[i].hidden = true;
+        }
+    }
+
+    addEventsToListElements() {
+        console.log("Add menu events to list elemes");
+        for(let i = 0; i < this.listElemes.length; i++) {
+            const element = this.listElemes[i];
+            element.onclick = () => {
+                console.log(element.id);
+                this.hideAllContens();
+                let number = element.id.toString().split("_")[1].toString();
+                document.getElementById("qqq_" + number).hidden = false;
+            }
+        }
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = MenuNavigationIniter;
+
+
 
 /***/ })
 /******/ ]);
