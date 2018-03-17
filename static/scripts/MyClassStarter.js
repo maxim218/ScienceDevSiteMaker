@@ -57,6 +57,12 @@ class MyClassStarter {
             return document.getElementById(objectDomId);
         };
 
+        const propLisetMenuOpener = find("www_6");
+        propLisetMenuOpener.hidden = true;
+        function showPropList() {
+            propLisetMenuOpener.hidden = false;
+        }
+
         const createTextBtn = find("createTextBtn");
         const createImageBtn = find("createImageBtn");
         const createRolicBtn = find("createRolicBtn");
@@ -66,26 +72,31 @@ class MyClassStarter {
         createTextBtn.onclick = () => {
             console.log("TEXT_BTN");
             this.projectManager.addElement("TEXT");
+            showPropList();
         };
 
         createImageBtn.onclick = () => {
             console.log("IMAGE_BTN");
             this.projectManager.addElement("IMAGE");
+            showPropList();
         };
 
         createRolicBtn.onclick = () => {
             console.log("ROLIC_BTN");
             this.projectManager.addElement("ROLIC");
+            showPropList();
         };
 
         createButtonBtn.onclick = () => {
             console.log("BUTTON_BTN");
             this.projectManager.addElement("BUTTON");
+            showPropList();
         };
 
         createInputFieldBtn.onclick = () => {
             console.log("INPUT_BTN");
             this.projectManager.addElement("INPUT");
+            showPropList();
         };
     }
 }
