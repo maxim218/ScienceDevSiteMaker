@@ -17,6 +17,7 @@ class MyClassStarter {
         this.addEventToChooseColorBtn();
         this.addEventsToCreateObjectButtons();
         this.addEventToChangePropertyBtn();
+        this.addEventToChouseImageBtn();
     }
 
     createMainObjects() {
@@ -48,6 +49,31 @@ class MyClassStarter {
         const elementsPropertiesOK = document.getElementById("elementsPropertiesOK");
         elementsPropertiesOK.onclick = () => {
             this.projectManager.changePropertyOfSelectedObject();
+        }
+    }
+
+    addEventToChouseImageBtn() {
+        console.log("Add file image button OK");
+
+        const btn1 = document.getElementById("changeFileImageBtn");
+        const btn2 = document.getElementById("chooseImageBtn");
+
+        btn2.onclick = function() {
+            console.log("CLICK");
+            btn1.click();
+        };
+
+        const t = this;
+
+        btn1.onchange = function() {
+            const file = this.files[0];
+            const myReader = new FileReader();
+            myReader.readAsDataURL(file);
+
+            myReader.onload = function(e) {
+                const imageContent = e.target.result;
+                t.projectManager.setImageContent(imageContent);
+            }
         }
     }
 

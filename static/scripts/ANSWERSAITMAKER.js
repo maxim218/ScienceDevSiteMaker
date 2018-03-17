@@ -90,6 +90,7 @@ class MyClassStarter {
         this.addEventToChooseColorBtn();
         this.addEventsToCreateObjectButtons();
         this.addEventToChangePropertyBtn();
+        this.addEventToChouseImageBtn();
     }
 
     createMainObjects() {
@@ -121,6 +122,31 @@ class MyClassStarter {
         const elementsPropertiesOK = document.getElementById("elementsPropertiesOK");
         elementsPropertiesOK.onclick = () => {
             this.projectManager.changePropertyOfSelectedObject();
+        }
+    }
+
+    addEventToChouseImageBtn() {
+        console.log("Add file image button OK");
+
+        const btn1 = document.getElementById("changeFileImageBtn");
+        const btn2 = document.getElementById("chooseImageBtn");
+
+        btn2.onclick = function() {
+            console.log("CLICK");
+            btn1.click();
+        };
+
+        const t = this;
+
+        btn1.onchange = function() {
+            const file = this.files[0];
+            const myReader = new FileReader();
+            myReader.readAsDataURL(file);
+
+            myReader.onload = function(e) {
+                const imageContent = e.target.result;
+                t.projectManager.setImageContent(imageContent);
+            }
         }
     }
 
@@ -315,6 +341,11 @@ class ProjectContentManager {
         this.loadPage();
     }
 
+    setImageContent(imageContent) {
+        this.currentElement.imageProperties.image = imageContent;
+        this.renderAll();
+    }
+
     changePropertyOfSelectedObject() {
         const element = this.currentElement;
 
@@ -329,6 +360,9 @@ class ProjectContentManager {
         element.textProperties.size = this.dict.TEXTsizeField.value;
         element.textProperties.color = this.dict.TEXTtextcolorFIELD.value;
         element.textProperties.fon = this.dict.TEXTbackgroundFIELD.value;
+
+        // image prop
+        // image is saved only in object
 
         this.renderAll();
     }
@@ -390,7 +424,10 @@ class ProjectContentManager {
                 size: 15,
                 color: "000000",
                 fon: "00FF00",
-            },
+            }, imageProperties: {
+                image: ""
+            }
+
         };
         const page = this.currentPage;
         page.elements.push(element);
@@ -412,6 +449,22 @@ class ProjectContentManager {
                 const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
                 const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
                 const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+                console.log("\n\n" + html + "\n\n");
+                htmlContent += html;
+            }
+
+            if(element.type === "IMAGE") {
+                const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
+                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
+                const htmlFirst = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+
+                const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
+                const par = [element.imageProperties.image, element.width, element.height];
+                const htmlSecond = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](tem, par).generate();
+
+                const htmlThird = "</div>";
+
+                const html = htmlFirst + htmlSecond + htmlThird;
                 console.log("\n\n" + html + "\n\n");
                 htmlContent += html;
             }

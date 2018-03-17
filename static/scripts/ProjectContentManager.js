@@ -88,6 +88,11 @@ export default class ProjectContentManager {
         this.loadPage();
     }
 
+    setImageContent(imageContent) {
+        this.currentElement.imageProperties.image = imageContent;
+        this.renderAll();
+    }
+
     changePropertyOfSelectedObject() {
         const element = this.currentElement;
 
@@ -102,6 +107,9 @@ export default class ProjectContentManager {
         element.textProperties.size = this.dict.TEXTsizeField.value;
         element.textProperties.color = this.dict.TEXTtextcolorFIELD.value;
         element.textProperties.fon = this.dict.TEXTbackgroundFIELD.value;
+
+        // image prop
+        // image is saved only in object
 
         this.renderAll();
     }
@@ -163,7 +171,10 @@ export default class ProjectContentManager {
                 size: 15,
                 color: "000000",
                 fon: "00FF00",
-            },
+            }, imageProperties: {
+                image: ""
+            }
+
         };
         const page = this.currentPage;
         page.elements.push(element);
@@ -185,6 +196,22 @@ export default class ProjectContentManager {
                 const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
                 const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
                 const html = new HTMLgenerator(template, params).generate();
+                console.log("\n\n" + html + "\n\n");
+                htmlContent += html;
+            }
+
+            if(element.type === "IMAGE") {
+                const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
+                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
+                const htmlFirst = new HTMLgenerator(template, params).generate();
+
+                const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
+                const par = [element.imageProperties.image, element.width, element.height];
+                const htmlSecond = new HTMLgenerator(tem, par).generate();
+
+                const htmlThird = "</div>";
+
+                const html = htmlFirst + htmlSecond + htmlThird;
                 console.log("\n\n" + html + "\n\n");
                 htmlContent += html;
             }
