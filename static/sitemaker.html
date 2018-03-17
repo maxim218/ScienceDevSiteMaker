@@ -8,8 +8,6 @@
 <body>
 
 <div id = "mainBox">
-    <div id = "pageContent"></div>
-
     <div id = "menuBox">
         <p class = "listElementMenu" id = "www_1">Проект</p>
         <p class = "listMenuContent" id = "qqq_1" hidden>
@@ -74,28 +72,36 @@
             <br>
             <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "sizeHfield" value = "">
             <br>
-            Содержимое текста
-            <br>
-            <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTcontentField" value = "">
-            <br>
-            Размер текста
-            <br>
-            <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTsizeField" value = "">
-            <br>
-            Цвет текста
-            <br>
-            <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTtextcolorFIELD" value = "">
-            <br>
-            Задний фон
-            <br>
-            <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTbackgroundFIELD" value = "">
-            <br>
-            <input type = "file" id = "changeFileImageBtn" hidden>
-            <button class = "btn" id = "chooseImageBtn">Выбрать изображение</button>
-            <br>
+            <span id = "ifThisSpanNotExists-then-htmlContent-can-be-broken"></span>
+            <span id = "textPropSelectBox">
+                Содержимое текста
+                <br>
+                <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTcontentField" value = "">
+                <br>
+                Размер текста
+                <br>
+                <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTsizeField" value = "">
+                <br>
+                Цвет текста
+                <br>
+                <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTtextcolorFIELD" value = "">
+                <br>
+                Задний фон
+                <br>
+                <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTbackgroundFIELD" value = "">
+                <br>
+            </span>
+
+            <span id = "imagePropSelectBox">
+                <input type = "file" id = "changeFileImageBtn" hidden>
+                <button class = "btn" id = "chooseImageBtn">Выбрать изображение</button>
+                <br>
+            </span>
             <button class = "btn" id = "elementsPropertiesOK">Применить</button>
         </p>
     </div>
+
+    <div id = "pageContent"></div>
 </div>
 
 <script>

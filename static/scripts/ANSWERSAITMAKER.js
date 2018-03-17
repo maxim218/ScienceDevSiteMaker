@@ -251,6 +251,8 @@ class MenuNavigationIniter {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HideController__ = __webpack_require__(4);
+
 
 
 
@@ -258,6 +260,7 @@ class MenuNavigationIniter {
 class ProjectContentManager {
     constructor() {
         console.log("Create ProjectContentManager object");
+        this.hideController = new __WEBPACK_IMPORTED_MODULE_1__HideController__["a" /* default */]();
         this.currentPage = null;
         this.currentElement = null;
         this.number = 0;
@@ -289,7 +292,9 @@ class ProjectContentManager {
     showOrHideInputElements() {
         const element = this.currentElement;
         console.log("Type: " + element.type);
-        //////////////////////////////////////////////////
+        this.hideController.hideAll();
+        if (element.type === "TEXT") this.hideController.showElement("textPropSelectBox");
+        if (element.type === "IMAGE") this.hideController.showElement("imagePropSelectBox");
     }
 
     initPagesArray() {
@@ -536,6 +541,44 @@ class HTMLgenerator {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = HTMLgenerator;
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+class HideController {
+    constructor() {
+        console.log("Create HideController");
+        this.d = {};
+        this.initDict();
+        this.hideAll();
+    }
+
+    add(elementID) {
+        this.d[elementID] = document.getElementById(elementID);
+    }
+
+    initDict() {
+        this.add("imagePropSelectBox");
+        this.add("textPropSelectBox");
+    }
+
+    hideAll() {
+        for(let elementID in this.d) {
+            this.d[elementID].hidden = true;
+        }
+    }
+
+    showElement(elementID) {
+        this.d[elementID].hidden = false;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = HideController;
 
 
 

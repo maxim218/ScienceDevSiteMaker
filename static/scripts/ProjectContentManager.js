@@ -1,10 +1,12 @@
 "use strict";
 
 import HTMLgenerator from "./HTMLgenerator";
+import HideController from "./HideController";
 
 export default class ProjectContentManager {
     constructor() {
         console.log("Create ProjectContentManager object");
+        this.hideController = new HideController();
         this.currentPage = null;
         this.currentElement = null;
         this.number = 0;
@@ -36,7 +38,9 @@ export default class ProjectContentManager {
     showOrHideInputElements() {
         const element = this.currentElement;
         console.log("Type: " + element.type);
-        //////////////////////////////////////////////////
+        this.hideController.hideAll();
+        if (element.type === "TEXT") this.hideController.showElement("textPropSelectBox");
+        if (element.type === "IMAGE") this.hideController.showElement("imagePropSelectBox");
     }
 
     initPagesArray() {
