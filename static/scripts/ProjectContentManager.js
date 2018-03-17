@@ -33,6 +33,12 @@ export default class ProjectContentManager {
         };
     }
 
+    showOrHideInputElements() {
+        const element = this.currentElement;
+        console.log("Type: " + element.type);
+        //////////////////////////////////////////////////
+    }
+
     initPagesArray() {
         this.pages = [];
     }
@@ -117,6 +123,9 @@ export default class ProjectContentManager {
     selectElement(ID) {
         // select current element
         this.currentElement = this.findElementByID(ID);
+
+        // show or hide input elements
+        this.showOrHideInputElements();
 
         // properties of every element
         const element = this.currentElement;
