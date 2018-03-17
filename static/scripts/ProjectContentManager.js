@@ -172,7 +172,7 @@ export default class ProjectContentManager {
                 color: "000000",
                 fon: "00FF00",
             }, imageProperties: {
-                image: ""
+                image: "./images/qqq.jpg"
             }
 
         };
