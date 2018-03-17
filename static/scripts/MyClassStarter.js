@@ -55,22 +55,27 @@ class MyClassStarter {
 
         createTextBtn.onclick = () => {
             console.log("TEXT_BTN");
+            this.projectManager.addElement("TEXT");
         };
 
         createImageBtn.onclick = () => {
             console.log("IMAGE_BTN");
+            this.projectManager.addElement("IMAGE");
         };
 
         createRolicBtn.onclick = () => {
             console.log("ROLIC_BTN");
+            this.projectManager.addElement("ROLIC");
         };
 
         createButtonBtn.onclick = () => {
             console.log("BUTTON_BTN");
+            this.projectManager.addElement("BUTTON");
         };
 
         createInputFieldBtn.onclick = () => {
             console.log("INPUT_BTN");
+            this.projectManager.addElement("INPUT");
         };
     }
 }

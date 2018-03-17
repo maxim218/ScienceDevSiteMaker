@@ -128,22 +128,27 @@ class MyClassStarter {
 
         createTextBtn.onclick = () => {
             console.log("TEXT_BTN");
+            this.projectManager.addElement("TEXT");
         };
 
         createImageBtn.onclick = () => {
             console.log("IMAGE_BTN");
+            this.projectManager.addElement("IMAGE");
         };
 
         createRolicBtn.onclick = () => {
             console.log("ROLIC_BTN");
+            this.projectManager.addElement("ROLIC");
         };
 
         createButtonBtn.onclick = () => {
             console.log("BUTTON_BTN");
+            this.projectManager.addElement("BUTTON");
         };
 
         createInputFieldBtn.onclick = () => {
             console.log("INPUT_BTN");
+            this.projectManager.addElement("INPUT");
         };
     }
 }
@@ -204,6 +209,7 @@ class ProjectContentManager {
     constructor() {
         console.log("Create ProjectContentManager object");
         this.currentPage = null;
+        this.number = 0;
         this.initDictionary();
         this.initPagesArray();
     }
@@ -218,6 +224,10 @@ class ProjectContentManager {
             pageNameField: get("pageNameField"),
             fonColorField: get("fonColorField"),
             pageContent: get("pageContent"),
+            posXfield: get("posXfield"),
+            posYfield: get("posYfield"),
+            sizeWfield: get("sizeWfield"),
+            sizeHfield: get("sizeHfield"),
         };
     }
 
@@ -272,6 +282,50 @@ class ProjectContentManager {
         this.addPage(pageName);
         this.currentPage = this.getPageObj(pageName);
         this.loadPage();
+    }
+
+    selectElement(ID) {
+        const element = this.findElementByID(ID);
+        const x = element.x;
+        const y = element.y;
+        const width = element.width;
+        const height = element.height;
+        this.dict.posXfield.value = x;
+        this.dict.posYfield.value = y;
+        this.dict.sizeWfield.value = width;
+        this.dict.sizeHfield.value= height;
+    }
+
+    findElementByID(ID) {
+        for(let i = 0; i < this.pages.length; i++) {
+            const page = this.pages[i];
+            const elementsArray = page.elements;
+            for(let k = 0; k < elementsArray.length; k++) {
+                const element = elementsArray[k];
+                if(element.ID === "element-in-dom----" + ID) {
+                    return element;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    addElement(type) {
+        this.number += 1;
+        const number = this.number.toString();
+        const ID = "element-in-dom----" + number;
+        const element = {
+            type: type,
+            width: 200,
+            height: 200,
+            x: 0,
+            y: 0,
+            ID: ID,
+        };
+        const page = this.currentPage;
+        page.elements.push(element);
+        this.selectElement(number);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = ProjectContentManager;
