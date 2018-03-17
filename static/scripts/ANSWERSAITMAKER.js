@@ -300,6 +300,8 @@ class ProjectContentManager {
             pageForGoToField: get("pageForGoToField"),
             labelIDofElement: get("labelIDofElement"),
             deleteElementField: get("deleteElementField"),
+            rolixPropSelectBox: get("rolixPropSelectBox"),
+            rolixInputField: get("rolixInputField"),
         };
     }
 
@@ -309,11 +311,15 @@ class ProjectContentManager {
         //////////
         this.hideController.hideAll();
         /////////
-        if (element.type === "TEXT") this.hideController.showElement("textPropSelectBox");
-        if (element.type === "IMAGE") this.hideController.showElement("imagePropSelectBox");
-        if(element.type === "BUTTON") {
+        if (element.type === "TEXT") {
+            this.hideController.showElement("textPropSelectBox");
+        } else if (element.type === "IMAGE") {
+            this.hideController.showElement("imagePropSelectBox");
+        } else if(element.type === "BUTTON") {
             this.hideController.showElement("textPropSelectBox");
             this.hideController.showElement("buttonPropSelectBox");
+        } else if(element.type === "ROLIC") {
+            this.hideController.showElement("rolixPropSelectBox");
         }
     }
 
@@ -398,6 +404,9 @@ class ProjectContentManager {
         // button properties
         element.textProperties.goToPage = this.dict.pageForGoToField.value;
 
+        // rolix properties
+        element.textProperties.rolix = this.dict.rolixInputField.value;
+
         this.renderAll();
     }
 
@@ -434,6 +443,9 @@ class ProjectContentManager {
 
         // buttonProperty
         this.dict.pageForGoToField.value = element.textProperties.goToPage;
+
+        // rolicProperty
+        this.dict.rolixInputField.value = element.textProperties.rolix;
     }
 
     findElementByID(ID) {
@@ -487,6 +499,7 @@ class ProjectContentManager {
                 color: "000000",
                 fon: "00FF00",
                 goToPage: "page_first",
+                rolix: "movie",
             }, imageProperties: {
                 image: "./images/qqq.jpg"
             }
@@ -521,6 +534,24 @@ class ProjectContentManager {
                     const template = " <button id = '@@@' onclick = 'console.log(218);' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</button>";
                     const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
                     const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+                    console.log("\n\n" + html + "\n\n");
+                    htmlContent += html;
+                }
+
+                if(element.type === "ROLIC") {
+                    const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
+                    const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
+                    const htmlFirst = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+
+                    const imageParam = "./images/camera.png";
+
+                    const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
+                    const par = [imageParam, element.width, element.height];
+                    const htmlSecond = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](tem, par).generate();
+
+                    const htmlThird = "</div>";
+
+                    const html = htmlFirst + htmlSecond + htmlThird;
                     console.log("\n\n" + html + "\n\n");
                     htmlContent += html;
                 }
@@ -626,6 +657,7 @@ class HideController {
         this.add("imagePropSelectBox");
         this.add("textPropSelectBox");
         this.add("buttonPropSelectBox");
+        this.add("rolixPropSelectBox");
     }
 
     hideAll() {

@@ -16,6 +16,7 @@ export default class HideController {
         this.add("imagePropSelectBox");
         this.add("textPropSelectBox");
         this.add("buttonPropSelectBox");
+        this.add("rolixPropSelectBox");
     }
 
     hideAll() {
