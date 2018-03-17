@@ -117,7 +117,7 @@
                         const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
                         const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
                         const html = new HTMLgenerator(template, params).generate();
-                        //console.log("\n\n" + html + "\n\n");
+                        console.log("\n\n" + html + "\n\n");
                         htmlContent += html;
                     }
 
@@ -144,7 +144,7 @@
                         const htmlThird = "</div>";
 
                         const html = htmlFirst + htmlSecond + htmlThird;
-                        //console.log("\n\n" + html + "\n\n");
+                        console.log("\n\n" + html + "\n\n");
                         htmlContent += html;
                     }
 
@@ -160,7 +160,7 @@
                         const htmlThird = "</div>";
 
                         const html = htmlFirst + htmlSecond + htmlThird;
-                        //console.log("\n\n" + html + "\n\n");
+                        console.log("\n\n" + html + "\n\n");
                         htmlContent += html;
                     }
                 }
