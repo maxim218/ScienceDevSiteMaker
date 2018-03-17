@@ -287,6 +287,7 @@ class ProjectContentManager {
             TEXTtextcolorFIELD: get("TEXTtextcolorFIELD"),
             TEXTbackgroundFIELD: get("TEXTbackgroundFIELD"),
             pageForGoToField: get("pageForGoToField"),
+            labelIDofElement: get("labelIDofElement"),
         };
     }
 
@@ -406,6 +407,9 @@ class ProjectContentManager {
         this.dict.sizeWfield.value = width;
         this.dict.sizeHfield.value= height;
 
+        // ID of element
+        this.dict.labelIDofElement.innerHTML = "ID: " + element.ID.split("----")[1];
+
         // textProperty
         const textContent = element.textProperties.content;
         const textSize = element.textProperties.size;
@@ -446,6 +450,7 @@ class ProjectContentManager {
             x: 0,
             y: 0,
             ID: ID,
+            deleted: false,
             textProperties: {
                 content: "Мой текст",
                 size: 15,
@@ -473,36 +478,38 @@ class ProjectContentManager {
         for(let i = 0; i < elements.length; i++) {
             const element = elements[i];
 
-            if(element.type === "TEXT") {
-                const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
-                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
-                const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
-                console.log("\n\n" + html + "\n\n");
-                htmlContent += html;
-            }
+            if(element.deleted === false) {
+                if (element.type === "TEXT") {
+                    const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
+                    const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
+                    const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+                    console.log("\n\n" + html + "\n\n");
+                    htmlContent += html;
+                }
 
-            if(element.type === "BUTTON") {
-                const template = " <button id = '@@@' onclick = 'console.log(218);' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</button>";
-                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
-                const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
-                console.log("\n\n" + html + "\n\n");
-                htmlContent += html;
-            }
+                if (element.type === "BUTTON") {
+                    const template = " <button id = '@@@' onclick = 'console.log(218);' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</button>";
+                    const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
+                    const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+                    console.log("\n\n" + html + "\n\n");
+                    htmlContent += html;
+                }
 
-            if(element.type === "IMAGE") {
-                const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
-                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
-                const htmlFirst = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+                if (element.type === "IMAGE") {
+                    const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
+                    const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
+                    const htmlFirst = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
 
-                const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
-                const par = [element.imageProperties.image, element.width, element.height];
-                const htmlSecond = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](tem, par).generate();
+                    const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
+                    const par = [element.imageProperties.image, element.width, element.height];
+                    const htmlSecond = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](tem, par).generate();
 
-                const htmlThird = "</div>";
+                    const htmlThird = "</div>";
 
-                const html = htmlFirst + htmlSecond + htmlThird;
-                console.log("\n\n" + html + "\n\n");
-                htmlContent += html;
+                    const html = htmlFirst + htmlSecond + htmlThird;
+                    console.log("\n\n" + html + "\n\n");
+                    htmlContent += html;
+                }
             }
         }
 
