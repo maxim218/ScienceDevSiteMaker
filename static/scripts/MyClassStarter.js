@@ -18,6 +18,7 @@ class MyClassStarter {
         this.addEventsToCreateObjectButtons();
         this.addEventToChangePropertyBtn();
         this.addEventToChouseImageBtn();
+        this.addEventToDropElementBtn();
     }
 
     createMainObjects() {
@@ -77,6 +78,14 @@ class MyClassStarter {
         }
     }
 
+    addEventToDropElementBtn() {
+        console.log("Add event to DELETE btn");
+        const deleteBtn = document.getElementById("dropElementFromObjBtn");
+        deleteBtn.onclick = () => {
+            this.projectManager.deleteOneElement();
+        }
+    }
+
     addEventsToCreateObjectButtons() {
         console.log("Add events to create objects buttons");
         const find = function(objectDomId) {
@@ -84,9 +93,11 @@ class MyClassStarter {
         };
 
         const propLisetMenuOpener = find("www_6");
+        const deleteElementLabel = find("www_5");
         propLisetMenuOpener.hidden = true;
         function showPropList() {
             propLisetMenuOpener.hidden = false;
+            deleteElementLabel.hidden = false;
         }
 
         const createTextBtn = find("createTextBtn");

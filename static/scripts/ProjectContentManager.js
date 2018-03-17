@@ -34,6 +34,7 @@ export default class ProjectContentManager {
             TEXTbackgroundFIELD: get("TEXTbackgroundFIELD"),
             pageForGoToField: get("pageForGoToField"),
             labelIDofElement: get("labelIDofElement"),
+            deleteElementField: get("deleteElementField"),
         };
     }
 
@@ -183,6 +184,24 @@ export default class ProjectContentManager {
         }
 
         return null;
+    }
+
+    deleteOneElement() {
+        const idNumber = parseInt(this.dict.deleteElementField.value + "");
+        const ID = "element-in-dom----" + idNumber;
+
+        for(let i = 0; i < this.pages.length; i++) {
+            const page = this.pages[i];
+            const elements = page.elements;
+            elements.forEach((element) => {
+                if(element.ID === ID) {
+                    element.deleted = true;
+                }
+            });
+        }
+
+        // rewrite content after deleting
+        this.renderAll();
     }
 
     addElement(type) {
