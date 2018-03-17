@@ -88,6 +88,7 @@ class MyClassStarter {
         this.addEventToChoosePageBtn();
         this.getElement("choosePageBtn").click();
         this.addEventToChooseColorBtn();
+        this.addEventsToCreateObjectButtons();
     }
 
     createMainObjects() {
@@ -111,6 +112,39 @@ class MyClassStarter {
         btn.onclick = () => {
             this.projectManager.setPageColor();
         }
+    }
+
+    addEventsToCreateObjectButtons() {
+        console.log("Add events to create objects buttons");
+        const find = function(objectDomId) {
+            return document.getElementById(objectDomId);
+        };
+
+        const createTextBtn = find("createTextBtn");
+        const createImageBtn = find("createImageBtn");
+        const createRolicBtn = find("createRolicBtn");
+        const createButtonBtn = find("createButtonBtn");
+        const createInputFieldBtn = find("createInputFieldBtn");
+
+        createTextBtn.onclick = () => {
+            console.log("TEXT_BTN");
+        };
+
+        createImageBtn.onclick = () => {
+            console.log("IMAGE_BTN");
+        };
+
+        createRolicBtn.onclick = () => {
+            console.log("ROLIC_BTN");
+        };
+
+        createButtonBtn.onclick = () => {
+            console.log("BUTTON_BTN");
+        };
+
+        createInputFieldBtn.onclick = () => {
+            console.log("INPUT_BTN");
+        };
     }
 }
 
