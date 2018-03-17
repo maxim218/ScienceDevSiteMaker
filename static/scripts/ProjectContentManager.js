@@ -67,6 +67,8 @@ export default class ProjectContentManager {
         const page = this.currentPage;
         this.dict.fonColorField.value = page.fon;
         this.dict.pageContent.style.backgroundColor = "#" + this.dict.fonColorField.value;
+        // rewrite content
+        this.renderAll();
     }
 
     getPage(pageName) {
@@ -193,11 +195,14 @@ export default class ProjectContentManager {
         this.pages.forEach((page) => {
             const elements = page.elements;
             elements.forEach((element) => {
-                document.getElementById(element.ID).onclick = () => {
-                    this.currentElement = element;
-                    console.log(element.ID);
-                    const numberID = element.ID.split("----")[1];
-                    this.selectElement(numberID);
+                const obj = document.getElementById(element.ID);
+                if(obj !== null && obj !== undefined) {
+                    obj.onclick = () => {
+                        this.currentElement = element;
+                        console.log(element.ID);
+                        const numberID = element.ID.split("----")[1];
+                        this.selectElement(numberID);
+                    }
                 }
             });
         });
