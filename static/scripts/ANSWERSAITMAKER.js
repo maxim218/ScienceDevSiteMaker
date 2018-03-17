@@ -70,20 +70,55 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MenuNavigationIniter__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ProjectContentManager__ = __webpack_require__(2);
+
 
 
 
 
 class MyClassStarter {
+    getElement(elementName) {
+        return this.d.getElementById(elementName + "");
+    }
+
     constructor() {
         console.log("Create main obj MyClassStarter");
-        new __WEBPACK_IMPORTED_MODULE_0__MenuNavigationIniter__["a" /* default */]();
+        this.d = document;
+        this.createMainObjects();
+        this.addEventToChoosePageBtn();
+        this.getElement("choosePageBtn").click();
+        this.addEventToChooseColorBtn();
+    }
+
+    createMainObjects() {
+        this.menuNavigator = new __WEBPACK_IMPORTED_MODULE_0__MenuNavigationIniter__["a" /* default */]();
+        this.projectManager = new __WEBPACK_IMPORTED_MODULE_1__ProjectContentManager__["a" /* default */]();
+    }
+
+    addEventToChoosePageBtn() {
+        console.log("Add event to choose page btn");
+        const btn = this.getElement("choosePageBtn");
+        const field = this.getElement("pageNameField");
+        btn.onclick = () => {
+            const value = field.value + "";
+            this.projectManager.getPage(value);
+        }
+    }
+
+    addEventToChooseColorBtn() {
+        console.log("Add event to choouse color btn");
+        const btn = this.getElement("chooseFonColorBtn");
+        btn.onclick = () => {
+            this.projectManager.setPageColor();
+        }
     }
 }
 
 window.onload = function() {
+    console.log("Window load OK");
     const mainObj = new MyClassStarter();
 };
+
 
 /***/ }),
 /* 1 */
@@ -122,6 +157,90 @@ class MenuNavigationIniter {
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = MenuNavigationIniter;
 
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+class ProjectContentManager {
+    constructor() {
+        console.log("Create ProjectContentManager object");
+        this.currentPage = null;
+        this.initDictionary();
+        this.initPagesArray();
+    }
+
+    initDictionary() {
+        console.log("Init dictionary of elements");
+        function get(s) {
+            return document.getElementById(s + "");
+        }
+
+        this.dict = {
+            pageNameField: get("pageNameField"),
+            fonColorField: get("fonColorField"),
+            pageContent: get("pageContent"),
+        };
+    }
+
+    initPagesArray() {
+        this.pages = [];
+    }
+
+    addPage(pageName) {
+        const page = {
+            name: pageName,
+            fon: "FFFFFF",
+            elements: []
+        };
+        this.pages.push(page);
+    }
+
+    getPageObj(pageName) {
+        for(let i = 0; i < this.pages.length; i++) {
+            const page = this.pages[i];
+            if (page.name === pageName) {
+                return page;
+            }
+        }
+        return null;
+    }
+
+    setPageColor() {
+        const page = this.currentPage;
+        const colorValue = this.dict.fonColorField.value + "";
+        page.fon = colorValue + "";
+        this.dict.pageContent.style.backgroundColor = "#" + colorValue;
+    }
+
+    loadPage() {
+        const page = this.currentPage;
+        this.dict.fonColorField.value = page.fon;
+        this.dict.pageContent.style.backgroundColor = "#" + this.dict.fonColorField.value;
+    }
+
+    getPage(pageName) {
+        for(let i = 0; i < this.pages.length; i++) {
+            const page = this.pages[i];
+            if(page.name === pageName) {
+                console.log("Page found: " + page.name);
+                this.currentPage = this.getPageObj(page.name);
+                this.loadPage();
+                return;
+            }
+        }
+
+        console.log("Create NEW page: " + pageName);
+        this.addPage(pageName);
+        this.currentPage = this.getPageObj(pageName);
+        this.loadPage();
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ProjectContentManager;
 
 
 /***/ })
