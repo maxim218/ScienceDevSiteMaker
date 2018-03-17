@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Получение разметки</title>
+    <style>
+        #inputBox {
+            position: absolute;
+            left: 0px;
+            top: 30px;
+            padding: 0px;
+        }
+
+        #mainBox {
+            position: absolute;
+            left: 0px;
+            top: 230px;
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<div id = "inputBox">
+    <textarea id = "textAreaField"></textarea>
+    <button onclick = "generateHtmlFunc()">Сгенерировать HTML</button>
+</div>
+
+<div id = "mainBox"></div>
+
+<script>
+    "use strict";
+
+    class HTMLgenerator {
+        constructor(stringTemplate, arrayParam) {
+            this.stringTemplate = stringTemplate;
+            this.arrayParam = arrayParam;
+        }
+
+        generate() {
+            const stringTemplate = this.stringTemplate;
+            const arrayParam = this.arrayParam;
+
+            const mass = stringTemplate.split("@@@");
+
+            let result = "";
+            for(let i = 0; i < mass.length; i++) {
+                if(mass[i] !== null && mass[i] !== undefined) {
+                    result = result + (mass[i] + "");
+
+                    if(arrayParam[i] !== null && arrayParam[i] !== undefined) {
+                        result = result + (arrayParam[i] + "");
+                    }
+                }
+            }
+
+            result += "";
+
+            return result;
+        }
+    }
+</script>
+
+<script>
+    function getElem(s) {
+        return document.getElementById(s);
+    }
+
+    let textAreaField = null;
+    let mainBox = null;
+    let pages = null;
+
+    function showThePage(pageName) {
+        console.log(pageName);
+        console.log("Go to page: " + pageName);
+
+        pages.forEach((page) => {
+            console.log("hidePage: " + page.name);
+            document.getElementById(page.name).hidden = true;
+        });
+
+        pages.forEach((page) => {
+            if(page.name === pageName) {
+                const p = document.getElementById(pageName);
+                p.hidden = false;
+                const color = "#" + page.fon;
+                mainBox.style.backgroundColor = color + "";
+            }
+        });
+    }
+
+    window.onload = function() {
+        textAreaField = getElem("textAreaField");
+        mainBox = getElem("mainBox");
+    };
+
+    function generateHtmlFunc() {
+        const pagesStr = textAreaField.value;
+        pages = JSON.parse(pagesStr);
+
+        let htmlContent = "";
+
+        for(let kkk = 0; kkk < pages.length; kkk++) {
+            const page = pages[kkk];
+            const elements = page.elements;
+
+            htmlContent += "<div id = '" + page.name + "' hidden>";
+
+            for (let i = 0; i < elements.length; i++) {
+                const element = elements[i];
+
+                if (element.deleted === false) {
+                    if (element.type === "TEXT") {
+                        const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
+                        const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
+                        const html = new HTMLgenerator(template, params).generate();
+                        //console.log("\n\n" + html + "\n\n");
+                        htmlContent += html;
+                    }
+
+                    if (element.type === "BUTTON") {
+                        const linkPageName = '"' + element.textProperties.goToPage + '"';
+                        const template = " <button id = '@@@' onclick = 'showThePage(@@@)' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</button>";
+                        const params = [element.ID, linkPageName, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
+                        const html = new HTMLgenerator(template, params).generate();
+                        console.log("\n\n" + html + "\n\n");
+                        htmlContent += html;
+                    }
+
+                    if (element.type === "ROLIC") {
+                        const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
+                        const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
+                        const htmlFirst = new HTMLgenerator(template, params).generate();
+
+                        const imageParam = "./images/camera.png";
+
+                        const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
+                        const par = [imageParam, element.width, element.height];
+                        const htmlSecond = new HTMLgenerator(tem, par).generate();
+
+                        const htmlThird = "</div>";
+
+                        const html = htmlFirst + htmlSecond + htmlThird;
+                        //console.log("\n\n" + html + "\n\n");
+                        htmlContent += html;
+                    }
+
+                    if (element.type === "IMAGE") {
+                        const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>";
+                        const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size];
+                        const htmlFirst = new HTMLgenerator(template, params).generate();
+
+                        const tem = "<img src = '@@@' width = '@@@px' height = '@@@px'>";
+                        const par = [element.imageProperties.image, element.width, element.height];
+                        const htmlSecond = new HTMLgenerator(tem, par).generate();
+
+                        const htmlThird = "</div>";
+
+                        const html = htmlFirst + htmlSecond + htmlThird;
+                        //console.log("\n\n" + html + "\n\n");
+                        htmlContent += html;
+                    }
+                }
+            }
+
+            htmlContent += "</div>";
+        }
+
+        // set content of main box
+        mainBox.innerHTML = htmlContent + "";
+
+        // get DOM first page
+        const page0 = document.getElementById(pages[0].name);
+        // show page
+        page0.hidden = false;
+
+        // set background
+        const color = "#" + pages[0].fon;
+        mainBox.style.backgroundColor = color + "";
+
+    }
+</script>
+
+</body>
+</html>
