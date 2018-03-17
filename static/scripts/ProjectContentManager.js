@@ -1,9 +1,12 @@
 "use strict";
 
+import HTMLgenerator from "./HTMLgenerator";
+
 export default class ProjectContentManager {
     constructor() {
         console.log("Create ProjectContentManager object");
         this.currentPage = null;
+        this.currentElement = null;
         this.number = 0;
         this.initDictionary();
         this.initPagesArray();
@@ -23,6 +26,10 @@ export default class ProjectContentManager {
             posYfield: get("posYfield"),
             sizeWfield: get("sizeWfield"),
             sizeHfield: get("sizeHfield"),
+            TEXTcontentField: get("TEXTcontentField"),
+            TEXTsizeField: get("TEXTsizeField"),
+            TEXTtextcolorFIELD: get("TEXTtextcolorFIELD"),
+            TEXTbackgroundFIELD: get("TEXTbackgroundFIELD"),
         };
     }
 
@@ -79,8 +86,30 @@ export default class ProjectContentManager {
         this.loadPage();
     }
 
+    changePropertyOfSelectedObject() {
+        const element = this.currentElement;
+
+        // X Y W H
+        element.x = this.dict.posXfield.value;
+        element.y = this.dict.posYfield.value;
+        element.width = this.dict.sizeWfield.value;
+        element.height = this.dict.sizeHfield.value;
+
+        // text prop
+        element.textProperties.content = this.dict.TEXTcontentField.value;
+        element.textProperties.size = this.dict.TEXTsizeField.value;
+        element.textProperties.color = this.dict.TEXTtextcolorFIELD.value;
+        element.textProperties.fon = this.dict.TEXTbackgroundFIELD.value;
+
+        this.renderAll();
+    }
+
     selectElement(ID) {
-        const element = this.findElementByID(ID);
+        // select current element
+        this.currentElement = this.findElementByID(ID);
+
+        // properties of every element
+        const element = this.currentElement;
         const x = element.x;
         const y = element.y;
         const width = element.width;
@@ -89,6 +118,16 @@ export default class ProjectContentManager {
         this.dict.posYfield.value = y;
         this.dict.sizeWfield.value = width;
         this.dict.sizeHfield.value= height;
+
+        // textProperty
+        const textContent = element.textProperties.content;
+        const textSize = element.textProperties.size;
+        const textColor = element.textProperties.color;
+        const textFonColor = element.textProperties.fon;
+        this.dict.TEXTcontentField.value = textContent;
+        this.dict.TEXTsizeField.value = textSize;
+        this.dict.TEXTtextcolorFIELD.value = textColor;
+        this.dict.TEXTbackgroundFIELD.value = textFonColor;
     }
 
     findElementByID(ID) {
@@ -117,9 +156,50 @@ export default class ProjectContentManager {
             x: 0,
             y: 0,
             ID: ID,
+            textProperties: {
+                content: "Мой текст",
+                size: 15,
+                color: "000000",
+                fon: "00FF00",
+            },
         };
         const page = this.currentPage;
         page.elements.push(element);
         this.selectElement(number);
+        this.renderAll();
+    }
+
+    renderAll() {
+        this.dict.pageContent.innerHTML = "";
+
+        const page = this.currentPage;
+        const elements = page.elements;
+        let htmlContent = "";
+
+        for(let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+
+            if(element.type === "TEXT") {
+                const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
+                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
+                const html = new HTMLgenerator(template, params).generate();
+                console.log("\n\n" + html + "\n\n");
+                htmlContent += html;
+            }
+        }
+
+        this.dict.pageContent.innerHTML = htmlContent;
+
+        this.pages.forEach((page) => {
+            const elements = page.elements;
+            elements.forEach((element) => {
+                document.getElementById(element.ID).onclick = () => {
+                    this.currentElement = element;
+                    console.log(element.ID);
+                    const numberID = element.ID.split("----")[1];
+                    this.selectElement(numberID);
+                }
+            });
+        });
     }
 }

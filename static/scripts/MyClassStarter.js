@@ -16,6 +16,7 @@ class MyClassStarter {
         this.getElement("choosePageBtn").click();
         this.addEventToChooseColorBtn();
         this.addEventsToCreateObjectButtons();
+        this.addEventToChangePropertyBtn();
     }
 
     createMainObjects() {
@@ -38,6 +39,15 @@ class MyClassStarter {
         const btn = this.getElement("chooseFonColorBtn");
         btn.onclick = () => {
             this.projectManager.setPageColor();
+        }
+    }
+
+    addEventToChangePropertyBtn() {
+        console.log("addEventToChangePropertyBtn OK");
+
+        const elementsPropertiesOK = document.getElementById("elementsPropertiesOK");
+        elementsPropertiesOK.onclick = () => {
+            this.projectManager.changePropertyOfSelectedObject();
         }
     }
 
