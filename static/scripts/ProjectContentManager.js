@@ -62,6 +62,10 @@ export default class ProjectContentManager {
         this.pages = [];
     }
 
+    getPagesArray() {
+        return this.pages;
+    }
+
     addPage(pageName) {
         const page = {
             name: pageName,

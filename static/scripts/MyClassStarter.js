@@ -19,6 +19,7 @@ class MyClassStarter {
         this.addEventToChangePropertyBtn();
         this.addEventToChouseImageBtn();
         this.addEventToDropElementBtn();
+        this.addEventToWatchProjectBtn();
     }
 
     createMainObjects() {
@@ -75,6 +76,18 @@ class MyClassStarter {
                 const imageContent = e.target.result;
                 t.projectManager.setImageContent(imageContent);
             }
+        }
+    }
+
+    addEventToWatchProjectBtn() {
+        console.log("Add event to save and watch btn");
+        const watchBtn = document.getElementById("saveAndWatchProjectBtn");
+        watchBtn.onclick = () => {
+            console.log("--------------------------------");
+            const pages = this.projectManager.getPagesArray();
+            const pagesStr = JSON.stringify(pages);
+            console.log(pagesStr);
+            console.log("--------------------------------");
         }
     }
 
