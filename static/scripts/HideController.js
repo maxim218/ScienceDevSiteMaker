@@ -15,6 +15,7 @@ export default class HideController {
     initDict() {
         this.add("imagePropSelectBox");
         this.add("textPropSelectBox");
+        this.add("buttonPropSelectBox");
     }
 
     hideAll() {

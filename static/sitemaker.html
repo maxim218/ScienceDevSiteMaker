@@ -42,7 +42,7 @@
             <br>
             <button class = "btn" id = "createButtonBtn" style="width:240px;">Кнопка</button>
             <br>
-            <button class = "btn" id = "createInputFieldBtn" style="width:240px;">Поле ввода</button>
+            <button class = "btn" id = "createInputFieldBtn" style="width:240px;" hidden>Поле ввода</button>
         </p>
 
         <p class = "listElementMenu" id = "www_5" hidden>Удалить элемент</p>
@@ -74,7 +74,7 @@
             <br>
             <span id = "ifThisSpanNotExists-then-htmlContent-can-be-broken"></span>
             <span id = "textPropSelectBox">
-                Содержимое текста
+                Текст
                 <br>
                 <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "TEXTcontentField" value = "">
                 <br>
@@ -97,6 +97,14 @@
                 <button class = "btn" id = "chooseImageBtn">Выбрать изображение</button>
                 <br>
             </span>
+
+            <span id = "buttonPropSelectBox">
+                Страница перехода
+                <br>
+                <input type = "text" spellcheck = 'false' autocomplete = 'off' class = "textField" id = "pageForGoToField" value = "">
+                <br>
+            </span>
+
             <button class = "btn" id = "elementsPropertiesOK">Применить</button>
         </p>
     </div>

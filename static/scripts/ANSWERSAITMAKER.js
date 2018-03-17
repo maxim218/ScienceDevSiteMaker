@@ -286,15 +286,22 @@ class ProjectContentManager {
             TEXTsizeField: get("TEXTsizeField"),
             TEXTtextcolorFIELD: get("TEXTtextcolorFIELD"),
             TEXTbackgroundFIELD: get("TEXTbackgroundFIELD"),
+            pageForGoToField: get("pageForGoToField"),
         };
     }
 
     showOrHideInputElements() {
         const element = this.currentElement;
         console.log("Type: " + element.type);
+        //////////
         this.hideController.hideAll();
+        /////////
         if (element.type === "TEXT") this.hideController.showElement("textPropSelectBox");
         if (element.type === "IMAGE") this.hideController.showElement("imagePropSelectBox");
+        if(element.type === "BUTTON") {
+            this.hideController.showElement("textPropSelectBox");
+            this.hideController.showElement("buttonPropSelectBox");
+        }
     }
 
     initPagesArray() {
@@ -375,6 +382,9 @@ class ProjectContentManager {
         // image prop
         // image is saved only in object
 
+        // button properties
+        element.textProperties.goToPage = this.dict.pageForGoToField.value;
+
         this.renderAll();
     }
 
@@ -405,6 +415,9 @@ class ProjectContentManager {
         this.dict.TEXTsizeField.value = textSize;
         this.dict.TEXTtextcolorFIELD.value = textColor;
         this.dict.TEXTbackgroundFIELD.value = textFonColor;
+
+        // buttonProperty
+        this.dict.pageForGoToField.value = element.textProperties.goToPage;
     }
 
     findElementByID(ID) {
@@ -438,6 +451,7 @@ class ProjectContentManager {
                 size: 15,
                 color: "000000",
                 fon: "00FF00",
+                goToPage: "page_first",
             }, imageProperties: {
                 image: "./images/qqq.jpg"
             }
@@ -461,6 +475,14 @@ class ProjectContentManager {
 
             if(element.type === "TEXT") {
                 const template = " <div id = '@@@' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</div>";
+                const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
+                const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
+                console.log("\n\n" + html + "\n\n");
+                htmlContent += html;
+            }
+
+            if(element.type === "BUTTON") {
+                const template = " <button id = '@@@' onclick = 'console.log(218);' style = 'position: absolute; padding: 0px; width: @@@px; height: @@@px; margin-left: @@@px; margin-top: @@@px; background-color: #@@@; color: #@@@; font-size: @@@px;'>@@@</button>";
                 const params = [element.ID, element.width, element.height, element.x, element.y, element.textProperties.fon, element.textProperties.color, element.textProperties.size, element.textProperties.content];
                 const html = new __WEBPACK_IMPORTED_MODULE_0__HTMLgenerator__["a" /* default */](template, params).generate();
                 console.log("\n\n" + html + "\n\n");
@@ -566,6 +588,7 @@ class HideController {
     initDict() {
         this.add("imagePropSelectBox");
         this.add("textPropSelectBox");
+        this.add("buttonPropSelectBox");
     }
 
     hideAll() {
